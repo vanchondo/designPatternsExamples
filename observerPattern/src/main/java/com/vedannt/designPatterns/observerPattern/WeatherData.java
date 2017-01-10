@@ -2,33 +2,20 @@ package com.vedannt.designPatterns.observerPattern;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by veanchondo on 1/9/17.
  */
-public class WeatherData implements Subject {
+public class WeatherData extends Observable {
     private List<Observer> observers = new ArrayList<>();
     private double temperature;
     private double humidity;
     private double pressure;
 
-    public void registerObserver(Observer o) {
-        observers.add(o);
-    }
-
-    public void removeObserver(Observer o) {
-//        int i= observers.indexOf(o);
-//        if (i>0) {
-//            observers.remove(i);
-//        }
-        observers.remove(o);
-    }
-
-    public void notifyObservers() {
-        observers.forEach(observer -> observer.update(temperature, humidity, pressure));
-    }
-
     public void measurementsChanged() {
+        setChanged();
         notifyObservers();
     }
 
@@ -37,5 +24,17 @@ public class WeatherData implements Subject {
         this.humidity = humidity;
         this.pressure = pressure;
         measurementsChanged();
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public double getPressure() {
+        return pressure;
     }
 }

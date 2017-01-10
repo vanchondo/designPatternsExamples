@@ -3,6 +3,8 @@ package com.vedannt.designPatterns.observerPattern;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by veanchondo on 1/9/17.
@@ -14,20 +16,23 @@ public class StatisticsDisplay implements Observer, DisplayElement {
     private double avg;
     private double max;
     private double min;
-    private Subject weatherData;
+    private Observable observer;
 
-    public StatisticsDisplay(WeatherData weatherData){
-        this.weatherData = weatherData;
-        weatherData.registerObserver(this);
+    public StatisticsDisplay(Observable observer){
+        this.observer = observer;
+        observer.addObserver(this);
     }
 
     @Override
-    public void update(double temp, double humidity, double pressure) {
-        tempratures.add(temp);
-        max = Collections.max(tempratures);
-        min = Collections.min(tempratures);
-        avg = tempratures.stream().mapToDouble(a->a).average().getAsDouble();
-        display();
+    public void update(Observable obs, Object arg) {
+        if (obs instanceof WeatherData){
+            WeatherData weatherData = (WeatherData) obs;
+            tempratures.add(weatherData.getTemperature());
+            max = Collections.max(tempratures);
+            min = Collections.min(tempratures);
+            avg = tempratures.stream().mapToDouble(a->a).average().getAsDouble();
+            display();
+        }
     }
 
     @Override

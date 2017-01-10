@@ -15,7 +15,7 @@ public class WeatherStation {
         weatherData.setMeasurements(82, 70, 29.2);
         weatherData.setMeasurements(78, 90, 29.2);
 
-        weatherData.removeObserver(statisticsDisplay);
+        weatherData.deleteObserver(statisticsDisplay);
         weatherData.setMeasurements(77, 20, 30.2);
         weatherData.setMeasurements(83, 40, 28.2);
 
